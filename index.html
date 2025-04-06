@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Online Dress Shopping</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff12bc;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .dress-card {
+            background-color: white;
+            width: 250px;
+            margin: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .dress-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .dress-card h3 {
+            margin-top: 10px;
+            color: #333;
+        }
+        .dress-card p {
+            font-size: 1.2em;
+            color: #e74c3c;
+        }
+        .dress-card button {
+            background-color: #c1149e;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .dress-card button:hover {
+            background-color: #f80a79;
+        }
+        .cart {
+            background-color: #d827e4;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .cart ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .cart li {
+            margin: 5px 0;
+        }
+        .cart .total {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        .cart button {
+            background-color: #072bf9;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cart button:hover {
+            background-color: #ec8110;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Welcome Page -->
+<div id="welcomePage">
+    <header>
+        <h1>Welcome to Our Dress Shop!</h1>
+        <p>Your perfect dress awaits you!</p>
+        <button onclick="goToCollection()">Start Shopping</button>
+    </header>
+</div>
+
+<!-- Dress Collection Page -->
+<div id="collectionPage" class="hidden">
+    <header>
+        <h1>Dress Collection</h1>
+        <p>Choose your favorite dress</p>
+    </header>
+
+    <div class="container">
+        <div class="dress-card">
+            <img src="https://via.placeholder.com/250x350.png?text=Dress+1" alt="Dress 1">
+            <h3>Elegant Red Dress</h3>
+            <p>$70.00</p>
+            <button onclick="addToCart('Elegant Red Dress', 70)">Add to Cart</button>
+        </div>
+        <div class="dress-card">
+            <img src="https://via.placeholder.com/250x350.png?text=Dress+2" alt="Dress 2">
+            <h3>Blue Evening Gown</h3>
+            <p>$120.00</p>
+            <button onclick="addToCart('Blue Evening Gown', 120)">Add to Cart</button>
+        </div>
+        <div class="dress-card">
+            <img src="https://via.placeholder.com/250x350.png?text=Dress+3" alt="Dress 3">
+            <h3>Casual Green Dress</h3>
+            <p>$45.00</p>
+            <button onclick="addToCart('Casual Green Dress', 45)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="cart">
+        <h2>Your Cart</h2>
+        <ul id="cartList"></ul>
+        <p class="total">Total: $<span id="totalAmount">0.00</span></p>
+        <button onclick="placeOrder()">Place Order</button>
+    </div>
+</div>
+
+<!-- Order Confirmation Page -->
+<div id="orderPage" class="hidden">
+    <header>
+        <h1>Order Placed!</h1>
+        <p>Your order has been successfully placed.</p>
+        <button onclick="goToWelcome()">Go Back to Welcome Page</button>
+    </header>
+</div>
+
+<script>
+    let cart = [];
+    let totalAmount = 0;
+
+    // Navigate to the Dress Collection Page
+    function goToCollection() {
+        document.getElementById('welcomePage').classList.add('hidden');
+        document.getElementById('collectionPage').classList.remove('hidden');
+    }
+
+    // Navigate back to the Welcome Page
+    function goToWelcome() {
+        document.getElementById('orderPage').classList.add('hidden');
+        document.getElementById('welcomePage').classList.remove('hidden');
+    }
+
+    // Add items to the cart
+    function addToCart(itemName, itemPrice) {
+        cart.push({ name: itemName, price: itemPrice });
+        totalAmount += itemPrice;
+        updateCartDisplay();
+    }
+
+    // Update the cart display
+    function updateCartDisplay() {
+        const cartList = document.getElementById('cartList');
+        const totalAmountElem = document.getElementById('totalAmount');
+        cartList.innerHTML = ''; // Clear the cart list
+
+        cart.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+            cartList.appendChild(listItem);
+        });
+
+        totalAmountElem.textContent = totalAmount.toFixed(2);
+    }
+
+    // Place the order and navigate to the Order Page
+    function placeOrder() {
+        document.getElementById('collectionPage').classList.add('hidden');
+        document.getElementById('orderPage').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>
